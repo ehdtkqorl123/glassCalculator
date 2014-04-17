@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import ca.paulshin.glass.calculator.App;
+import ca.paulshin.glass.calculator.R;
 
 import com.google.android.glass.app.Card;
 
@@ -64,6 +65,7 @@ public class MainActivity extends Activity {
 			.build();
 		} catch (Exception e) {
 			e.printStackTrace();
+			return getString(R.string.invalid_input);
 		}
 		double result = calc.calculate();
 
