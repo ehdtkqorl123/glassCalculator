@@ -3,6 +3,11 @@ glassCalculator
 
 Simple calculator for Google Glass.
 
+Optimized for XE16 as of April 17, 2014.
+
+To use, adb sideload the apk to your Glass as any other.
+Once the app is installed, "Ok glass, compute..."
+
 ### Example voice commands:
 - 1 plus 1
 - 1 munus 1
@@ -12,11 +17,6 @@ Simple calculator for Google Glass.
 - cubic root of 1
 - 1 to the power of 1
 - Pi
-
-Optimized for XE16 as of April 17, 2014.
-
-To use, adb sideload the apk to your Glass as any other.
-Once the app is installed, "Ok glass, compute..."
 
 ### TODO: 
 - Handle invalid inputs in an elegant manner
