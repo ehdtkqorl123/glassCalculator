@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
 			command = voiceResults.get(0);
 		}
 
-		String result = processCommand(command);
+		String result = processCommand(command.toLowerCase());
 		showResult(command, result);
 	}
 
@@ -33,22 +33,23 @@ public class MainActivity extends Activity {
 		Calculable calc = null;
 
 		// Pi
-		if (command.equalsIgnoreCase("Pi") || command.equalsIgnoreCase("Hi"))
-			return String.valueOf(Math.PI);
+//		if (command.equals("pi") || command.equals("hi"))
+//			return String.valueOf(Math.PI);
 
-		command = command.replace("plus", "+").replace("Plus", "+");
-		command = command.replace("minus", "-").replace("Minus", "-");
-		command = command.replace("times", "*").replace("Times", "*");
-		command = command.replace("X", "*").replace("x", "*");
-		command = command.replace("divided by", "/").replace("Divided by", "/");
-		command = command.replace("divide by", "/").replace("Divide by", "/");
-		command = command.replace("square root of", "sqrt").replace("Square root of", "/");
-		command = command.replace("square root", "sqrt").replace("Square root", "/");
-		command = command.replace("cubic root of", "cbrt").replace("Cubic root of", "/");
-		command = command.replace("cubic root", "cbrt").replace("Cubic root", "/");
-		command = command.replace("to the power of", "^").replace("To the power of", "^");
+		command = command.replace("plus", "+");
+		command = command.replace("minus", "-");
+		command = command.replace("times", "*");
+		command = command.replace("X", "*");
+		command = command.replace("divided by", "/");
+		command = command.replace("divide by", "/");
+		command = command.replace("square root of", "sqrt");
+		command = command.replace("square root", "sqrt");
+		command = command.replace("cubic root of", "cbrt");
+		command = command.replace("cubic root", "cbrt");
+		command = command.replace("to the power of", "^");
 		
-//		command = command.replace("modulo", "%").replace("Modulo", "%");
+// The followings are not voice-recognized accurately
+//		command = command.replace("modulo", "%");
 //		command = command.replace("sine", "sin");
 //		command = command.replace("cosine", "cos");
 //		command = command.replace("tangent", "tan");
@@ -57,7 +58,10 @@ public class MainActivity extends Activity {
 //		command = command.replace("arc tangent", "atan");
 
 		try {
-			calc = new ExpressionBuilder(command).build();
+			calc = new ExpressionBuilder(command)
+			.withVariable("hi", Math.PI)
+			.withVariable("pi", Math.PI)
+			.build();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,7 +78,8 @@ public class MainActivity extends Activity {
 	}
 	
 	private void showResult(String command, String result) {
-        
+		command = command.replace("hi", "Pi");
+		
         Card card = new Card(this);
         card.setText(result);
         card.setFootnote(command);
