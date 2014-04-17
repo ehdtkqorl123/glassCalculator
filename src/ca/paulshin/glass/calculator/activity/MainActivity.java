@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.speech.RecognizerIntent;
 import android.util.Log;
+import ca.paulshin.glass.calculator.App;
+
+import com.google.android.glass.app.Card;
+
 import de.congrace.exp4j.Calculable;
 import de.congrace.exp4j.ExpressionBuilder;
 
@@ -18,24 +22,19 @@ public class MainActivity extends Activity {
 		if (voiceResults != null && voiceResults.size() > 0) {
 			command = voiceResults.get(0);
 		}
-		
 
-		processCommand(command);
+		String result = processCommand(command);
+		showResult(command, result);
 	}
 
 	private String processCommand(String command) {
+		if (App.DEBUG) Log.d(App.TAG, "Command: " + command);
+		
 		Calculable calc = null;
 
 		// Pi
-		if (command.equalsIgnoreCase("Pi"))
+		if (command.equalsIgnoreCase("Pi") || command.equalsIgnoreCase("Hi"))
 			return String.valueOf(Math.PI);
-
-		// Integer Factorial - eg. 3 factorial
-		if (command.contains("factorial")) {
-			String numberStr = command.substring(0, command.indexOf(" "));
-			int number = Integer.parseInt(numberStr);
-			return String.valueOf(factorial(number));
-		}
 
 		command = command.replace("plus", "+").replace("Plus", "+");
 		command = command.replace("minus", "-").replace("Minus", "-");
@@ -56,8 +55,6 @@ public class MainActivity extends Activity {
 //		command = command.replace("arc sine", "asin");
 //		command = command.replace("arc cosine", "acos");
 //		command = command.replace("arc tangent", "atan");
-		
-		Log.d("log", "command: " + command);
 
 		try {
 			calc = new ExpressionBuilder(command).build();
@@ -65,11 +62,23 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 		double result = calc.calculate();
-		Log.d("log", "result: " + result);
-		return "";
+
+		if (App.DEBUG) Log.d(App.TAG, "result: " + result);
+		if (result == (int)result)
+			return String.valueOf((int)result);
+		return String.valueOf(result);
 	}
 
 	private int factorial(int value) {
 		return value == 1 ? 1 : value * factorial(value - 1);
+	}
+	
+	private void showResult(String command, String result) {
+        
+        Card card = new Card(this);
+        card.setText(result);
+        card.setFootnote(command);
+        
+        setContentView(card.getView());
 	}
 }

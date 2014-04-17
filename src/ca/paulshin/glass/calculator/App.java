@@ -5,6 +5,7 @@ import android.app.Application;
 public class App extends Application {
 
 	public final static boolean DEBUG = true;
+	public final static String TAG = "GlassCalculator";
 	static App sInstance;
 
 	@Override
